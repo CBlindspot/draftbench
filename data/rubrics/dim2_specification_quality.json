@@ -17,31 +17,31 @@
     {
       "score": 5,
       "label": "Excellent",
-      "criteria": "[Pending review] Specification fully enables claims, all elements have written description support, no §112 defects, jurisdictional requirements satisfied where targeted.",
+      "criteria": "Specification fully enables a POSITA to make and use every claimed embodiment; written description support is explicit for every limitation in every claim; §112(b) terms are unambiguous; §112(f) means-plus-function language, where used, is bounded by clearly disclosed structure. Where the use case targets foreign jurisdictions, EP Art 83/84/123(2), CN Art 26.3/.4, and JP Art 36 requirements are satisfied without preparatory amendment.",
       "anchor_example": null
     },
     {
       "score": 4,
       "label": "Good",
-      "criteria": "[Pending review] Minor drafting tightening would close marginal §112(b) definiteness gaps; otherwise sound.",
+      "criteria": "Specification is sound on §112(a) enablement and §112(b) definiteness in the US. Minor drafting tightening would close marginal definiteness gaps (e.g., a relative term lacking a reference, a functional limitation with thin structural support). For multi-jurisdiction inventions, EP / CN / JP requirements are met with one or two non-blocking observations.",
       "anchor_example": null
     },
     {
       "score": 3,
       "label": "Adequate",
-      "criteria": "[Pending review] Filable specification with §112(a) enablement defects requiring more than one editing pass to resolve.",
+      "criteria": "Filable specification with §112(a) enablement gaps requiring more than one editing pass to resolve. Some claim limitations have thin or implicit written description support that would survive examination but not a rigorous IPR. Jurisdictional conformance is uneven across EP / CN / JP.",
       "anchor_example": null
     },
     {
       "score": 2,
       "label": "Weak",
-      "criteria": "[Pending review] Material §112(a) or (b) failures; written description does not support all claim limitations; would face strong rejection on examination.",
+      "criteria": "Material §112(a) enablement or §112(b) definiteness failures: written description does not support multiple claim limitations; means-plus-function language lacks disclosed structure; relative terms without reference appear in the claims. Would face strong §112 rejection on substantive examination.",
       "anchor_example": null
     },
     {
       "score": 1,
       "label": "Unacceptable",
-      "criteria": "[Pending review] Specification is non-enabling, lacks definite claim language across multiple claims, or contains added-matter that would prompt EP Art 123(2) rejection on filing in jurisdiction.",
+      "criteria": "Specification is non-enabling as a whole, lacks definite claim language across multiple claims, or contains added matter that would prompt EP Art 123(2) rejection on filing in any jurisdiction. The draft would be unfilable without substantial rewriting of the disclosure.",
       "anchor_example": null
     }
   ],

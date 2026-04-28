@@ -15,31 +15,31 @@
     {
       "score": 5,
       "label": "Excellent",
-      "criteria": "[Pending review] Independent claims at appropriately broad scope supported by disclosure; dependent chain progressively narrows along strategically valuable axes; clear differentiation from cited prior art; Markush correct; no antecedent-basis defects.",
+      "criteria": "Independent claim drafted at the broadest scope supported by the disclosure that does not read on cited prior art; dependent chain progressively narrows along strategically valuable axes (structural, functional, jurisdictional fallback positions); Markush groups, where used, are closed and properly bounded; zero antecedent-basis defects across the claim set; differentiation over cited art is explicit and §103-aware.",
       "anchor_example": null
     },
     {
       "score": 4,
       "label": "Good",
-      "criteria": "[Pending review] Minor scope or architecture issues that an experienced attorney could correct in one editing pass; differentiation present but not maximally exploited.",
+      "criteria": "Strong claim set with minor scope or hierarchy issues that an experienced patent attorney could close in a single editing pass. Differentiation over cited art is present. Antecedent-basis defects, if any, are limited to one or two cosmetic instances (e.g., 'the device' before its first introduction in a single dependent claim).",
       "anchor_example": null
     },
     {
       "score": 3,
       "label": "Adequate",
-      "criteria": "[Pending review] Claims are filable but suboptimal — scope too cautious or too aggressive in places, dependent chain shallow or non-strategic.",
+      "criteria": "Claims are filable and would receive a Notice of Allowance after standard prosecution, but scope is suboptimal: either too cautious (leaves enforceable scope on the table) or too aggressive (will trigger §102/§103 rejections requiring substantial amendment). Dependent chain is shallow or non-strategic.",
       "anchor_example": null
     },
     {
       "score": 2,
       "label": "Weak",
-      "criteria": "[Pending review] Material scope problems, missing independent claims for distinct statutory categories, or systematic antecedent-basis errors.",
+      "criteria": "Material scope problems: missing independent claims for distinct statutory categories (apparatus / method / system) where the disclosure would support them; or independent claim reads on the cited prior art directly. Systematic antecedent-basis errors across multiple claims. Markush groups, where used, are open-ended or improperly bounded.",
       "anchor_example": null
     },
     {
       "score": 1,
       "label": "Unacceptable",
-      "criteria": "[Pending review] Claims would not survive USPTO formality review or have structural defects rendering them unenforceable.",
+      "criteria": "Claims would not survive USPTO formality review (mixed statutory categories within a single claim, hybrid apparatus/method, 'means for' without §112(f) structural support). Independent claim is anticipated by a cited reference. Structural defects render the claim set unenforceable as drafted.",
       "anchor_example": null
     }
   ],

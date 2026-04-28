@@ -73,9 +73,14 @@ One rubric per dimension (1-7 per METHODOLOGY.md §4). Each rubric is a JSON doc
 
 ## Status (v1.0-draft)
 
-The rubric files in this directory ship as **skeletons** for v1.0 INTA — schema and dimension framing are locked, but the 1-5 anchor criteria are placeholder text pending external review per METHODOLOGY.md §16 open questions.
+The rubric files in this directory ship with **anchored 1-5 criteria** for v1.0 INTA — concrete behavioral descriptions per score level, drawn from MPEP / §112 / EPC / SIPO / JPO requirements and the Therasense doctrine. Schema and dimension framing are locked.
 
-Full anchored rubrics with at least one validated example per score level land in v1.1.
+What v1.0 does NOT yet ship:
+
+- **Anchor examples** — concrete excerpts (real or anonymized) tied to each score level. v1.0 leaves `anchor_example: null`; v1.1 backfills these from the first six panel-scored runs to reduce reviewer drift.
+- **Dim 4 absolute edit-time thresholds** — v1.0 reports edit-time in run-relative quartiles; v1.1 introduces absolute thresholds calibrated against accumulated panel data.
+
+Per METHODOLOGY.md §16, the rubrics remain open for external-review refinement before publication freeze.
 
 ## Adding or modifying a rubric
 

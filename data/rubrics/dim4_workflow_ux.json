@@ -3,7 +3,7 @@
   "dimension": "Workflow & UX",
   "weight": 0.10,
   "version": "1.0-draft",
-  "description": "Attorney edit-time in minutes — the commercial metric that decides senior-partner adoption. Lower edit-time is better; complemented by character-level edit-distance between original draft and attorney-approved version.",
+  "description": "Attorney edit-time in minutes — the commercial metric that decides senior-partner adoption. Lower edit-time is better; complemented by character-level edit-distance between original draft and attorney-approved version. Per-run absolute thresholds are calibrated against the run's empirical distribution; v1.0 reports relative quartiles, v1.1 introduces calibrated absolute thresholds.",
   "sub_criteria": [
     "Total edit-time in minutes from review start to ship-ready",
     "Edit-distance (character-level) between original and approved versions",
@@ -14,35 +14,35 @@
     {
       "score": 5,
       "label": "Excellent",
-      "criteria": "[Pending review] Edit-time under [TBD] minutes; character-level edit-distance under [TBD]; ≤1 structural rewrite; no independent-claim rewrite.",
+      "criteria": "Attorney edit-time falls in the bottom quartile (< 25th percentile) of the run's edit-time distribution. Character-level edit distance is dominated by insertions of attorney-preferred phrasing rather than substantive corrections. Zero structural rewrites required; independent claim shipped as drafted.",
       "anchor_example": null
     },
     {
       "score": 4,
       "label": "Good",
-      "criteria": "[Pending review] Edit-time within first quartile; minor surface edits dominate; up to 1 independent-claim refinement.",
+      "criteria": "Edit-time within the first quartile (25th–50th percentile). Edits are predominantly surface-level (terminology preferences, formatting, punctuation). At most one independent-claim refinement, and zero structural rewrites of specification sections.",
       "anchor_example": null
     },
     {
       "score": 3,
       "label": "Adequate",
-      "criteria": "[Pending review] Edit-time within median range; mix of structural and surface edits; 1-2 dependent-claim rewrites.",
+      "criteria": "Edit-time within the median range (50th–75th percentile). Mix of surface and structural edits. One or two dependent-claim rewrites and at most one substantive specification-section rewrite. Independent claim retained with minor scope adjustment.",
       "anchor_example": null
     },
     {
       "score": 2,
       "label": "Weak",
-      "criteria": "[Pending review] Edit-time in fourth quartile; multiple structural rewrites required; independent claim partially rewritten.",
+      "criteria": "Edit-time in the fourth quartile (> 75th percentile). Multiple structural rewrites required across specification sections. Independent claim partially rewritten to address scope or §112 issues introduced by the AI draft.",
       "anchor_example": null
     },
     {
       "score": 1,
       "label": "Unacceptable",
-      "criteria": "[Pending review] Faster to draft from scratch — attorney rewrites majority of independent claim and significant spec sections.",
+      "criteria": "Faster for the attorney to draft from scratch than to edit the AI output. Majority of independent claim rewritten; substantial portions of the specification rewritten; the AI-generated draft did not save attorney time.",
       "anchor_example": null
     }
   ],
   "track_a_signals": [],
-  "track_b_protocol": "Reviewer is timed from opening the anonymized draft to declaring ship-readiness. The edit format is [Pending: open question §16.2] — METHODOLOGY.md §16 lists this protocol as pending reviewer-panel input. v1.0 ships placeholder; v1.1 locks the protocol.",
+  "track_b_protocol": "Reviewer is timed from opening the anonymized draft to declaring ship-readiness. The edit format (track-changes Word doc, plain-text diff, or in-platform editor with timestamp logging) is open question §16.2 — pending reviewer-panel input. v1.0 quartile thresholds are derived from each run's empirical distribution; v1.1 introduces absolute thresholds calibrated against the panel's first six runs.",
   "kill_switch": null
 }

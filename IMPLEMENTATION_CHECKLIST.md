@@ -56,13 +56,14 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 ## Rubrics — `data/rubrics/dim{1-7}_*.json`
 
 - [x] Schema definition (`data/rubrics/README.md`)
-- [ ] Dim 1 — Claim Drafting Quality (5-level rubric, anchor examples)
-- [ ] Dim 2 — Specification Quality (5-level rubric, jurisdiction-aware)
-- [ ] Dim 3 — Prosecution & Post-Grant Durability (5-level rubric)
-- [ ] Dim 4 — Workflow & UX (edit-time measurement protocol)
-- [ ] Dim 5 — AI Safety & Fabrication Resistance (5-class taxonomy + Therasense criteria)
-- [ ] Dim 6 — Confidentiality, Privilege & Trust (4 binary deal-breakers)
-- [ ] Dim 7 — Integration & TCO (3-year cost model)
+- [x] Dim 1 — Claim Drafting Quality (5-level rubric anchored, anchor examples deferred to v1.1)
+- [x] Dim 2 — Specification Quality (5-level rubric, jurisdiction-aware US / EP / CN / JP)
+- [x] Dim 3 — Prosecution & Post-Grant Durability (5-level rubric, IOU thresholds + survival priors)
+- [x] Dim 4 — Workflow & UX (5-level rubric, run-relative quartile thresholds; absolute thresholds deferred to v1.1)
+- [x] Dim 5 — AI Safety & Fabrication Resistance (5-class taxonomy + Therasense criteria)
+- [x] Dim 6 — Confidentiality, Privilege & Trust (4 binary deal-breakers)
+- [x] Dim 7 — Integration & TCO (3-year cost model)
+- [ ] Anchor examples (v1.1) — real or anonymized excerpts per score level, backfilled from first six panel-scored runs
 
 ## Test Inventions — `data/`
 

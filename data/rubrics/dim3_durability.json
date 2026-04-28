@@ -14,31 +14,31 @@
     {
       "score": 5,
       "label": "Excellent",
-      "criteria": "[Pending review] Claims align with ground-truth survived claims for the same disclosure; predicted IPR survival > 80%; analogous-claim litigation outcomes favorable.",
+      "criteria": "Independent claims align with ground-truth survived claims for the same disclosure (intersection-over-union of limitations ≥ 0.85); predicted IPR survival probability > 80% per Juristat / Lex Machina priors on analogous claim language; dependent claims provide multiple defensible fallback positions covering distinct technical embodiments.",
       "anchor_example": null
     },
     {
       "score": 4,
       "label": "Good",
-      "criteria": "[Pending review] Strong alignment with ground truth; minor scope deltas would not change adversarial outcome.",
+      "criteria": "Strong alignment with ground-truth survived claims (IOU ≥ 0.65). Minor scope deltas (an extra non-essential limitation in the candidate, a missing dependent claim covering a corner-case embodiment) would not change the adversarial outcome. Litigation priors on analogous claims trend favorable.",
       "anchor_example": null
     },
     {
       "score": 3,
       "label": "Adequate",
-      "criteria": "[Pending review] Partial overlap with ground truth; predicted survival 50-80%; litigation outcome priors mixed.",
+      "criteria": "Partial overlap with ground truth (IOU 0.40–0.65); predicted survival 50–80%; litigation outcome priors are mixed across analogous claim language. Claim set would survive one IPR challenge but is exposed to specific lines of attack a motivated petitioner could exploit.",
       "anchor_example": null
     },
     {
       "score": 2,
       "label": "Weak",
-      "criteria": "[Pending review] Material divergence from survived claims; predicted survival 20-50%; analogous claims often invalidated.",
+      "criteria": "Material divergence from ground-truth survived claims (IOU < 0.40); predicted survival 20–50%; analogous claim language has been invalidated in published IPR or district court decisions more often than maintained. Claim scope is either too broad (anticipated / obvious) or improperly narrow (missing key supporting limitations the original drafter included for a reason).",
       "anchor_example": null
     },
     {
       "score": 1,
       "label": "Unacceptable",
-      "criteria": "[Pending review] Claims would be readily invalidated; predicted survival < 20%; no defensible position against motivated adversary.",
+      "criteria": "Claim scope is anticipated or rendered obvious by a single cited reference; predicted survival < 20%; analogous claim language has been invalidated in the overwhelming majority of post-grant proceedings on the books. No defensible position against a motivated adversary at the PTAB or in district court.",
       "anchor_example": null
     }
   ],
