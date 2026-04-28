@@ -87,26 +87,26 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 - [x] `MANIFESTO.md` — why DraftBench exists, addressed to industry
 - [x] `CONTRIBUTING.md` — test invention / rubric / adapter contribution guidelines
 - [x] `INTEGRATION.md` — adapter patterns (API / CSV / browser)
-- [ ] `data/rubrics/README.md` — rubric JSON schema specification
-- [ ] `data/full/README.md` — Track A corpus organization (v1.1)
-- [ ] `reports/v1.0-summary.md` — first public run scorecard
+- [x] `data/rubrics/README.md` — rubric JSON schema specification (skeleton anchor criteria pending Sylvain + Roger's academic partner review)
+- [x] `data/full/README.md` — Track A corpus organization placeholder (v1.1 build target)
+- [ ] `reports/v1.0-summary.md` — first public run scorecard (generated post full-run via `draftbench report`)
 
 ## Infrastructure
 
 - [x] LICENSE Apache-2.0
-- [x] `pyproject.toml` (hatchling) with optional provider dependencies
+- [x] `pyproject.toml` (hatchling) with optional provider dependencies (anthropic / google / playwright forward-declared for future adapters)
 - [x] `.gitignore`
 - [x] `.github/workflows/ci.yml` — pytest + ruff + mypy
-- [ ] `tests/` — unit coverage for harness, adapters, evaluator (target ≥70% on core modules)
+- [x] `tests/` — 73 tests covering harness, adapters, evaluator, judges, layers, scoring, USPTO client (Layer 1-5 paths + kill-switch + JSON parsing + composite math + report rendering)
 - [ ] `pip install draftbench` published to PyPI (post-v1.0)
 
 ## Pre-Launch Validation
 
-- [ ] Mini-run sanity check — 1 invention × 4 frontier models × 1 repeat completes end-to-end
+- [ ] Mini-run sanity check — 1 invention × 4 frontier models × 1 repeat completes end-to-end (pending OpenRouter top-up)
 - [ ] Full v1.0 first run — 7 LLMs × 3 inventions × 3 repeats = 63 drafts
 - [ ] Methodology academic-partner review (Roger's collaborator)
 - [ ] Vendor co-announcement coordination with PatentBench (joint INTA reveal)
 
 ---
 
-*Last updated: 2026-04-28*
+*Last updated: 2026-04-28 — Phase 2 complete (LLM-judge framework, Layers 2/4/5A/5B, composite scorer, HTML report, CLI `score` + `report`). 73 tests passing. Awaiting OpenRouter top-up for full v1.0 first-run, Sacha + academic + Sylvain methodology review, and §16 open-question resolutions.*

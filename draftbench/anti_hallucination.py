@@ -30,13 +30,29 @@ class HallucinationClass(str, Enum):
     E_OVERREACH = "E_overreach"
 
 
-# Common patent-number patterns. Loose: catches both "US 9,123,456" and
-# "U.S. Pat. No. 9,123,456 B2". Filter to validate against USPTO Patent
-# Public Search at verification time.
-US_PATENT_RE = re.compile(
-    r"\b(?:U\.?\s*S\.?\s*(?:Pat(?:ent)?\.?\s*No\.?)?\s*)?"
+# Patent-number patterns — STRICT to avoid false-positive Therasense kill-switch
+# triggers on phone numbers, serial numbers, or other 7-8-digit sequences. The
+# kill-switch is the most consequential signal in the whole harness; a false
+# positive (flagging a real, non-fabricated citation as fabricated) is far worse
+# than a false negative (missing a fabricated citation) — the latter gets caught
+# by Layer 5B Class B/C judging anyway.
+#
+# We require ONE of two patterns:
+#   (1) Patent context prefix — "US 9,123,456", "U.S. Pat. No. 9,123,456 B2"
+#   (2) Comma-separated US patent format — "9,123,456" — a syntax that almost
+#       never appears outside patent citations.
+#
+# Phone numbers like "555-123-4567" are excluded by the hyphens (only commas /
+# periods / whitespace are accepted as digit-group separators in pattern 2),
+# and bare 10-digit strings without separators don't match pattern 1 (no
+# context) or pattern 2 (no commas).
+US_PATENT_PREFIXED_RE = re.compile(
+    r"\b(?:U\.?\s*S\.?\s*(?:Pat(?:ent)?\.?\s*No\.?)?\s*)"  # REQUIRED prefix
     r"(\d{1,2}[,\.\s]?\d{3}[,\.\s]?\d{3})"
     r"(?:\s*[A-Z]\d?)?\b"
+)
+US_PATENT_BARE_COMMA_RE = re.compile(
+    r"(?<![\w\-,])(\d{1,2},\d{3},\d{3})(?![\w\-,])"
 )
 US_PUBLICATION_RE = re.compile(
     r"\bUS\s*(\d{4})[/-](\d{6,7})\s*A1?\b"
@@ -72,14 +88,20 @@ class AntiHallucinationResult:
 def extract_cited_references(text: str) -> list[CitedReference]:
     """Find every plausible USPTO patent-number / publication-number citation.
 
+    Strict-by-design: only matches numbers with explicit patent context (US/Pat
+    prefix) or comma-separated format. This means we may miss bare 7-digit
+    citations without commas — but Therasense false-positive risk dominates
+    false-negative risk (Layer 5B catches missed citations as Class B/C).
+
     Result is the input set for downstream Class A verification (USPTO Patent
-    Public Search lookup, Phase 2). Class A = referenced number does not exist
-    in the USPTO record.
+    Public Search lookup). Class A = referenced number does not exist in the
+    USPTO record.
     """
     refs: list[CitedReference] = []
-    for m in US_PATENT_RE.finditer(text):
+    # Pattern 1: with patent context prefix (US, U.S., Pat. No., Patent)
+    for m in US_PATENT_PREFIXED_RE.finditer(text):
         digits = re.sub(r"[^\d]", "", m.group(1))
-        if 6 <= len(digits) <= 8:  # plausible US patent number range
+        if 6 <= len(digits) <= 8:
             refs.append(
                 CitedReference(
                     raw=m.group(0).strip(),
@@ -87,6 +109,18 @@ def extract_cited_references(text: str) -> list[CitedReference]:
                     location_in_text=m.start(),
                 )
             )
+    # Pattern 2: bare comma-separated US patent number ("9,123,456")
+    for m in US_PATENT_BARE_COMMA_RE.finditer(text):
+        digits = re.sub(r"[^\d]", "", m.group(1))
+        if 6 <= len(digits) <= 8:
+            refs.append(
+                CitedReference(
+                    raw=m.group(1).strip(),
+                    normalized=digits,
+                    location_in_text=m.start(),
+                )
+            )
+    # Pattern 3: US publication numbers
     for m in US_PUBLICATION_RE.finditer(text):
         refs.append(
             CitedReference(

@@ -167,23 +167,39 @@ def score(  # pragma: no cover — orchestration glue, exercised end-to-end
     scorer = CompositeScorer()
 
     composite_scores: list[CompositeScore] = []
+    skipped: list[tuple[str, str, str]] = []  # (model, invention, error)
     for d in drafts:
-        click.echo(f"Scoring [{d['model_name']}] {d['invention_id']} repeat {d.get('repeat', 1)}…")
-        draft_text = d.get("output_text") or ""
-        l2 = layer2.evaluate(draft_text, cross_judge=cross_judge)
-        l4 = layer4.evaluate(draft_text) if layer4 else None
-        l5a = therasense.check(draft_text) if therasense else None
-        l5b = layer5b.evaluate(draft_text) if layer5b else None
-        cs = scorer.score(
-            invention_id=d["invention_id"],
-            model_name=d["model_name"],
-            layer1_metrics=d.get("auto_metrics") or {},
-            section_112_us=l2,
-            jurisdictional=l4,
-            therasense=l5a,
-            hallucination_taxonomy=l5b,
-        )
-        composite_scores.append(cs)
+        # Per-draft exception isolation — one bad draft must not abort the whole
+        # batch. Layer-internal errors are already tagged via JudgeResult.error;
+        # this guard catches unexpected exceptions (rubric-file missing, KeyError
+        # on malformed input draft, etc).
+        try:
+            click.echo(
+                f"Scoring [{d['model_name']}] {d['invention_id']} repeat {d.get('repeat', 1)}…"
+            )
+            draft_text = d.get("output_text") or ""
+            l2 = layer2.evaluate(draft_text, cross_judge=cross_judge)
+            l4 = layer4.evaluate(draft_text) if layer4 else None
+            l5a = therasense.check(draft_text) if therasense else None
+            l5b = layer5b.evaluate(draft_text) if layer5b else None
+            cs = scorer.score(
+                invention_id=d["invention_id"],
+                model_name=d["model_name"],
+                layer1_metrics=d.get("auto_metrics") or {},
+                section_112_us=l2,
+                jurisdictional=l4,
+                therasense=l5a,
+                hallucination_taxonomy=l5b,
+            )
+            composite_scores.append(cs)
+        except Exception as exc:  # noqa: BLE001 — log + continue, don't kill batch
+            err = f"{type(exc).__name__}: {exc}"
+            click.echo(
+                f"  WARN: skipping draft [{d.get('model_name', '?')}] "
+                f"{d.get('invention_id', '?')} — {err}",
+                err=True,
+            )
+            skipped.append((d.get("model_name", "?"), d.get("invention_id", "?"), err))
 
     out_payload = {
         "run_id": payload.get("run_id", "unknown"),
@@ -196,12 +212,17 @@ def score(  # pragma: no cover — orchestration glue, exercised end-to-end
     }
     Path(output).write_text(json.dumps(out_payload, indent=2, ensure_ascii=False))
 
+    if not composite_scores:
+        click.echo("\nNo drafts scored successfully — check warnings above.", err=True)
+        sys.exit(1)
+
     avg = sum(c.composite for c in composite_scores) / len(composite_scores)
     kills = sum(1 for c in composite_scores if c.kill_switch_active)
     click.echo(
         f"\nScored {len(composite_scores)} drafts → {output}"
         f"\n  Average composite: {avg:.3f}"
         f"\n  Kill-switches: {kills}"
+        + (f"\n  Skipped (errors): {len(skipped)}" if skipped else "")
     )
 
 

@@ -55,3 +55,50 @@ def test_class_a_returns_refs_when_no_validation_set() -> None:
     assert len(result.cited_references) == 1
     assert result.therasense_triggered is False
     assert result.findings == []
+
+
+# ------------------------------------------------------------ false-positive guards
+
+
+def test_phone_number_with_hyphens_not_extracted() -> None:
+    """Phone numbers like 555-123-4567 must NOT be flagged as patent citations.
+
+    A false Therasense kill-switch trigger on a footnote phone number would
+    fail an entire draft for the wrong reason — the most consequential possible
+    false-positive in the whole harness.
+    """
+    text = "For inquiries call 555-123-4567 or fax 415-555-9876."
+    refs = extract_cited_references(text)
+    assert refs == []
+
+
+def test_bare_10_digit_phone_not_extracted() -> None:
+    """A 10-digit phone string without separators or patent context must not match."""
+    text = "Reach the inventor at 5551234567 during business hours."
+    refs = extract_cited_references(text)
+    assert refs == []
+
+
+def test_serial_number_in_text_not_extracted() -> None:
+    """A bare 8-digit serial number with no patent context must not match."""
+    text = "Device serial 12345678 ships with firmware 2.4.1."
+    refs = extract_cited_references(text)
+    assert refs == []
+
+
+def test_bare_comma_formatted_patent_still_caught() -> None:
+    """We accept comma-separated patent format even without 'US' prefix."""
+    text = "The disclosure builds on 9,123,456 (cable management)."
+    refs = extract_cited_references(text)
+    assert len(refs) == 1
+    assert refs[0].normalized == "9123456"
+
+
+def test_prefix_required_for_unseparated_digits() -> None:
+    """Without commas, we require explicit US/Pat prefix to flag as citation."""
+    text_no_prefix = "Reference 9123456 in the paper."
+    text_with_prefix = "Reference US 9123456 in the paper."
+    assert extract_cited_references(text_no_prefix) == []
+    refs = extract_cited_references(text_with_prefix)
+    assert len(refs) == 1
+    assert refs[0].normalized == "9123456"

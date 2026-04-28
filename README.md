@@ -64,21 +64,38 @@ Benchmarks that rely only on expert panels face accusations of subjective prefer
 
 ---
 
+## Layered scoring
+
+DraftBench evaluates each draft through five harness layers (see [METHODOLOGY.md §6](./METHODOLOGY.md)):
+
+| Layer | Scope | Mechanism |
+|:---:|---|---|
+| 1 | Structural — MPEP 608.01 sections, claim count, abstract length | Regex + parser, no LLM |
+| 2 | §112 US — enablement (a), definiteness (b), means-plus-function (f) | LLM-judge cross-family |
+| 3 | *(reserved for the human panel — Track B blind review, no harness automation)* | Exported via `draftbench export-blind` |
+| 4 | Jurisdictional — EP Art 83/84/123(2), CN Art 26, JP Art 36 | LLM-judge per jurisdiction |
+| 5A | Therasense kill-switch — fabricated prior-art citation detection | USPTO Patent Public Search verification (PatentsView API + Google Patents fallback) |
+| 5B | Hallucination Classes B-E — misattribution, ungrounded claims, inconsistency, overreach | LLM-judge with the 5-class taxonomy rubric |
+
+Layer 5A's **Therasense kill-switch is non-negotiable**: any Class A finding (a cited US patent number that does not exist in the USPTO record) floors the entire draft's composite score to 0.0. Inequitable conduct is what *Therasense v. Becton Dickinson* (Fed. Cir. 2011) means by "fraud on the patent office" — fabricated prior-art is not a deduction, it is a kill-switch.
+
+---
+
 ## v1.0 first public run
 
-The v1.0 release ships with a first public run executed on three anonymized inventions (one mechanical, one medtech, one software) provided under pilot agreement by a U.S. law firm specializing in deep-tech patent prosecution. The firm's identity is withheld at their preference; the disclosures are fully anonymized (inventor names, assignee names, specific numeric parameters redacted) and released under the same Apache-2.0 license as the rest of the repository.
+The v1.0 release will ship with a public run on three anonymized inventions (one mechanical, one medtech, one software) drafted under pilot agreement with a U.S. law firm specializing in deep-tech patent prosecution. The firm's identity is withheld at their preference; the disclosures are fully anonymized (inventor names, assignee names, specific numeric parameters redacted) and released under the same Apache-2.0 license as the rest of the repository.
 
-Models evaluated in v1.0:
+Models evaluated in v1.0 (target):
 
 - Claude Opus 4.7 · Sonnet 4.6 · Haiku 4.5
 - GPT-5.4
-- Llama 3.3 70B (Groq)
-- DeepSeek V3.2
-- Qwen 3.6 Plus
+- Llama 4 Maverick · Llama 3.3 70B
+- DeepSeek R1
+- Qwen 3 Max Thinking
 
-Each model generates 3 independent drafts per invention (9 drafts per model, 63 drafts total). Automatic metrics run on all 63; blind expert review runs on a stratified subset.
+Each model generates 3 independent drafts per invention (9 drafts per model, ~63 drafts total). Layers 1, 2, 4, 5A, 5B run automatically on all drafts; Layer 3 (blind expert review, Track B) runs on a stratified subset.
 
-First-run data is in [`data/v1.0-first-public-run/`](./data/v1.0-first-public-run/). A summary scorecard is in [`reports/v1.0-summary.md`](./reports/v1.0-summary.md).
+The first **pilot run** (2026-04-21, partial, 4/7 models succeeded due to budget cap) is preserved as a historical artifact under [`data/v1.0-first-public-run/`](./data/v1.0-first-public-run/) — see its [README](./data/v1.0-first-public-run/README.md) for outcome details. The full v1.0 INTA run will replace this with all seven models executing successfully and is in flight.
 
 ---
 
@@ -89,45 +106,60 @@ Install from source (pip package pending first release):
 ```bash
 git clone https://github.com/cblindspot/draftbench
 cd draftbench
-pip install -e .
+pip install -e ".[dev]"
 ```
 
-Set your provider keys:
+Set the OpenRouter key (single API key reaches Claude / GPT / Llama / DeepSeek / Qwen):
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-export OPENAI_API_KEY=sk-...
 export OPENROUTER_API_KEY=sk-or-...
+# Optional — enables Layer 5A Therasense USPTO verification via PatentsView.
+# Without it, the harness falls back to Google Patents (HEAD probes, no auth).
+export PATENTSVIEW_API_KEY=...
 ```
 
-Run the mini example (1 invention, 4 frontier models, ~$2 in compute):
+Run the mini example (1 invention, 4 frontier models, 1 repeat, ~$2 in compute):
 
 ```bash
 draftbench run \
   --cases data/mini/cases.jsonl \
-  --models opus-4.7,sonnet-4.6,gpt-5.4,llama-3.3-70b \
-  --repeats 1
+  --models claude-opus-4.7,claude-sonnet-4.6,gpt-5.4,llama-3.3-70b \
+  --repeats 1 \
+  --output-dir results/
 ```
 
-Score the outputs (automatic metrics only):
+Score the outputs through Layers 2, 4, 5A, 5B (LLM-judge for §112 US, jurisdictional EP/CN/JP, Therasense kill-switch, hallucination Classes B-E):
 
 ```bash
-draftbench score results/run_*.json
+draftbench score results/run_<TIMESTAMP>.json \
+  --output results/run_<TIMESTAMP>_scored.json \
+  --judge-model claude-opus-4.7
 ```
 
-Generate a shareable HTML report:
+Add `--cross-judge-model gpt-5.4` for cross-family bias control on Layer 2 (METHODOLOGY.md §10).
+
+Generate a shareable HTML report (leaderboard, per-dimension breakdown, Pareto cost × quality, kill-switch findings):
 
 ```bash
-draftbench report results/run_*.json --format html
+draftbench report results/run_<TIMESTAMP>_scored.json \
+  --output results/run_<TIMESTAMP>_report.html
 ```
 
-Export blind-review packages for human reviewers:
+Export blind-review packages for human reviewers (Layer 3, Track B):
 
 ```bash
-draftbench export-blind results/run_*.json --reviewers reviewer-a,reviewer-b,reviewer-c
+draftbench export-blind results/run_<TIMESTAMP>.json \
+  --output-dir results/blind_<TIMESTAMP>/ \
+  --reviewers reviewer-a,reviewer-b,reviewer-c
 ```
 
-Outputs land in `results/run_{timestamp}.{json,csv,html}` with full model outputs, scoring breakdown, and raw API responses for reproducibility.
+List all available model IDs and their per-1M-token pricing:
+
+```bash
+draftbench list-models
+```
+
+Outputs land in `results/run_{timestamp}.{json,csv}` and the scored / report files alongside, with full model outputs, scoring breakdown, and raw API responses for reproducibility.
 
 ---
 

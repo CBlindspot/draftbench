@@ -27,12 +27,7 @@ classifiers = [
 dependencies = [
     "httpx>=0.25.0",
     "openai>=1.60.0",
-    "python-dotenv>=1.0.0",
-    "pydantic>=2.10.0",
-    "tiktoken>=0.8.0",
     "click>=8.1.0",
-    "rich>=13.0",
-    "tqdm>=4.65",
 ]
 
 [project.optional-dependencies]
