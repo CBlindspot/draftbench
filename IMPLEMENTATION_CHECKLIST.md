@@ -37,11 +37,13 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 - [x] CLI entry points scaffolded (`draftbench run`, `score`, `export-blind`, `report`)
 
 ### Phase 2 — v1.0 INTA-blocking
-- [ ] Layer 2 §112 US LLM-judge (cross-family Claude ↔ GPT)
-- [ ] Layer 4 jurisdictional EP/CN/JP LLM-judge
-- [ ] Layer 5 hallucination 5-class taxonomy + Therasense kill-switch (USPTO Patent Public Search cross-check)
+- [x] LLM-judge framework (`BaseJudge`, `OpenRouterJudge`, JSON parsing, structured `JudgeResult`)
+- [x] Layer 2 §112 US LLM-judge (cross-family Claude ↔ GPT supported via `cross_judge=` parameter)
+- [x] Layer 5A — Therasense kill-switch (USPTO Patent Public Search via PatentsView API + Google Patents fallback + disk cache)
+- [ ] Layer 5B — Hallucination 5-class taxonomy LLM-judge (Classes B-E)
+- [ ] Layer 4 — Jurisdictional EP/CN/JP LLM-judge
 - [ ] Composite scorer — 60/40 Track A/B merge across 7 dims
-- [ ] Blind-review package generator with mapping-file segregation
+- [x] Blind-review package generator with mapping-file segregation
 - [ ] HTML report generator with Pareto plots (cost × quality, throughput × quality, per-dim radar)
 
 ### Phase 3 — v1.1 (post-INTA)

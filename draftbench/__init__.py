@@ -4,13 +4,19 @@ from __future__ import annotations
 
 from draftbench.config import BenchmarkConfig, EvaluationLayer
 from draftbench.harness import BenchmarkResults, BenchmarkRunner
+from draftbench.judges.base import BaseJudge, JudgeConfig, JudgeFinding, JudgeResult
+from draftbench.judges.openrouter_judge import OpenRouterJudge
+from draftbench.layers.section_112_us import Section112USEvaluation, Section112USJudge
+from draftbench.layers.therasense import TheresenseChecker, TheresenseResult
 from draftbench.metrics import summarize_auto_metrics
 from draftbench.models.base import BaseModelAdapter, GenerationConfig
 from draftbench.prompts import DRAFTING_SYSTEM_PROMPT, build_user_prompt
+from draftbench.uspto import USPTOClient, VerificationResult
 
 __version__ = "0.1.0"
 
 __all__ = [
+    "BaseJudge",
     "BaseModelAdapter",
     "BenchmarkConfig",
     "BenchmarkResults",
@@ -18,6 +24,16 @@ __all__ = [
     "DRAFTING_SYSTEM_PROMPT",
     "EvaluationLayer",
     "GenerationConfig",
+    "JudgeConfig",
+    "JudgeFinding",
+    "JudgeResult",
+    "OpenRouterJudge",
+    "Section112USEvaluation",
+    "Section112USJudge",
+    "TheresenseChecker",
+    "TheresenseResult",
+    "USPTOClient",
+    "VerificationResult",
     "build_user_prompt",
     "summarize_auto_metrics",
 ]
