@@ -2,7 +2,7 @@
 
 **Version** : v1.0-draft (2026-04-23, pending external review)
 **Scope** : Patent drafting — Steps 9-11 of a typical prosecution workflow (prior-art mapping, claim generation, specification + abstract drafting)
-**Authors** : CBlindspot, with input from Sylvain Goiran and Roger Hahn (PatentBench)
+**Authors** : CBlindspot team, with input from Roger Hahn (PatentBench)
 **License** : Apache-2.0 — same as the repository
 
 ---
