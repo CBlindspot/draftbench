@@ -17,6 +17,13 @@ from draftbench.layers.therasense import TheresenseChecker, TheresenseResult
 from draftbench.metrics import summarize_auto_metrics
 from draftbench.models.base import BaseModelAdapter, GenerationConfig
 from draftbench.prompts import DRAFTING_SYSTEM_PROMPT, build_user_prompt
+from draftbench.scoring.composite import (
+    DIMENSION_WEIGHTS,
+    CompositeScore,
+    CompositeScorer,
+    DimensionScore,
+)
+from draftbench.scoring.report import HTMLReportGenerator
 from draftbench.uspto import USPTOClient, VerificationResult
 
 __version__ = "0.1.0"
@@ -27,9 +34,14 @@ __all__ = [
     "BenchmarkConfig",
     "BenchmarkResults",
     "BenchmarkRunner",
+    "CompositeScore",
+    "CompositeScorer",
+    "DIMENSION_WEIGHTS",
     "DRAFTING_SYSTEM_PROMPT",
+    "DimensionScore",
     "EvaluationLayer",
     "GenerationConfig",
+    "HTMLReportGenerator",
     "HallucinationTaxonomyJudge",
     "HallucinationTaxonomyResult",
     "JudgeConfig",

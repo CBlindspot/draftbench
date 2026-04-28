@@ -73,6 +73,12 @@ line-length = 120
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
 
+[tool.ruff.lint.per-file-ignores]
+# Template-style files with intentionally long inline CSS / JS / HTML literals.
+"draftbench/scoring/report.py" = ["E501"]
+# Test fixtures often have long literal JSON / repr lines.
+"tests/test_composite.py" = ["E501"]
+
 [tool.mypy]
 python_version = "3.10"
 strict = false

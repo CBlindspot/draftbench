@@ -1,14 +1,10 @@
-"""DraftBench CLI entry point — `draftbench {run,score,export-blind,report}`.
-
-v1.0 wires `run` end-to-end. `score`, `export-blind`, and `report` have
-scaffolded subcommands that delegate to in-progress modules; full
-implementations land per IMPLEMENTATION_CHECKLIST.md Phase 2.
-"""
+"""DraftBench CLI entry point — `draftbench {run,score,export-blind,report}`."""
 
 from __future__ import annotations
 
 import json
 import sys
+from dataclasses import asdict
 from pathlib import Path
 
 import click
@@ -18,6 +14,16 @@ from draftbench.blind_review import write_blind_review_package
 from draftbench.config import BenchmarkConfig
 from draftbench.data_loader import DataLoader
 from draftbench.harness import BenchmarkRunner
+from draftbench.layers.hallucination import HallucinationTaxonomyJudge
+from draftbench.layers.jurisdictional import JurisdictionalJudge
+from draftbench.layers.section_112_us import Section112USJudge
+from draftbench.layers.therasense import TheresenseChecker
+from draftbench.scoring.composite import (
+    CompositeScore,
+    CompositeScorer,
+    DimensionScore,
+)
+from draftbench.scoring.report import HTMLReportGenerator
 
 # Hardcoded model registry — keep stable for reproducibility. Refresh via
 # `python -m scripts.refresh_pricing`.
@@ -118,18 +124,155 @@ def export_blind(results_path: str, reviewers: str, output_dir: str) -> None:
 
 @cli.command()
 @click.argument("results_path", type=click.Path(exists=True, dir_okay=False))
-def score(results_path: str) -> None:  # pragma: no cover — Phase 2
-    """Run Layer 2/4/5 LLM-judge passes on a results JSON. (Phase 2)"""
-    click.echo("`draftbench score` lands with Layer 2/4/5 LLM-judge harness — Phase 2.")
-    click.echo(f"(Layer 1 metrics for {results_path} are already in the saved JSON.)")
+@click.option("--output", type=click.Path(), required=True,
+              help="Output scored JSON path.")
+@click.option("--judge-model", default="claude-opus-4.7", show_default=True,
+              help="Judge model ID (see `draftbench list-models`).")
+@click.option("--cross-judge-model", default=None,
+              help="Optional cross-family judge model ID (METHODOLOGY.md §10).")
+@click.option("--skip-uspto", is_flag=True,
+              help="Skip Layer 5A USPTO patent verification (offline mode).")
+@click.option("--skip-jurisdictional", is_flag=True,
+              help="Skip Layer 4 EP/CN/JP judge.")
+@click.option("--skip-taxonomy", is_flag=True,
+              help="Skip Layer 5B Class B-E judge.")
+@click.option("--limit", type=int, default=None,
+              help="Score only the first N succeeded drafts (for testing).")
+def score(  # pragma: no cover — orchestration glue, exercised end-to-end
+    results_path: str,
+    output: str,
+    judge_model: str,
+    cross_judge_model: str | None,
+    skip_uspto: bool,
+    skip_jurisdictional: bool,
+    skip_taxonomy: bool,
+    limit: int | None,
+) -> None:
+    """Run Layer 2/4/5 LLM-judge passes on a results JSON and write composite scores."""
+    payload = json.loads(Path(results_path).read_text(encoding="utf-8"))
+    drafts = [d for d in payload.get("drafts", []) if d.get("succeeded")]
+    if limit:
+        drafts = drafts[:limit]
+    if not drafts:
+        click.echo("No succeeded drafts to score in input JSON.", err=True)
+        sys.exit(1)
+
+    primary_judge = _build_judge(judge_model)
+    cross_judge = _build_judge(cross_judge_model) if cross_judge_model else None
+
+    layer2 = Section112USJudge(judge=primary_judge)
+    layer4 = JurisdictionalJudge(judge=primary_judge) if not skip_jurisdictional else None
+    layer5b = HallucinationTaxonomyJudge(judge=primary_judge) if not skip_taxonomy else None
+    therasense = TheresenseChecker() if not skip_uspto else None
+    scorer = CompositeScorer()
+
+    composite_scores: list[CompositeScore] = []
+    for d in drafts:
+        click.echo(f"Scoring [{d['model_name']}] {d['invention_id']} repeat {d.get('repeat', 1)}…")
+        draft_text = d.get("output_text") or ""
+        l2 = layer2.evaluate(draft_text, cross_judge=cross_judge)
+        l4 = layer4.evaluate(draft_text) if layer4 else None
+        l5a = therasense.check(draft_text) if therasense else None
+        l5b = layer5b.evaluate(draft_text) if layer5b else None
+        cs = scorer.score(
+            invention_id=d["invention_id"],
+            model_name=d["model_name"],
+            layer1_metrics=d.get("auto_metrics") or {},
+            section_112_us=l2,
+            jurisdictional=l4,
+            therasense=l5a,
+            hallucination_taxonomy=l5b,
+        )
+        composite_scores.append(cs)
+
+    out_payload = {
+        "run_id": payload.get("run_id", "unknown"),
+        "started_at": payload.get("started_at"),
+        "finished_at": payload.get("finished_at"),
+        "judge_model": judge_model,
+        "cross_judge_model": cross_judge_model,
+        "scores": [_score_to_dict(cs) for cs in composite_scores],
+        "drafts": payload.get("drafts", []),  # preserve so report can use cost data
+    }
+    Path(output).write_text(json.dumps(out_payload, indent=2, ensure_ascii=False))
+
+    avg = sum(c.composite for c in composite_scores) / len(composite_scores)
+    kills = sum(1 for c in composite_scores if c.kill_switch_active)
+    click.echo(
+        f"\nScored {len(composite_scores)} drafts → {output}"
+        f"\n  Average composite: {avg:.3f}"
+        f"\n  Kill-switches: {kills}"
+    )
 
 
 @cli.command()
-@click.argument("results_path", type=click.Path(exists=True, dir_okay=False))
-@click.option("--format", "fmt", type=click.Choice(["html", "md"]), default="html", show_default=True)
-def report(results_path: str, fmt: str) -> None:  # pragma: no cover — Phase 2
-    """Generate a shareable scorecard from a results JSON. (Phase 2)"""
-    click.echo(f"`draftbench report --format {fmt}` lands with composite scorer — Phase 2.")
+@click.argument("scored_path", type=click.Path(exists=True, dir_okay=False))
+@click.option("--output", type=click.Path(), required=True, help="Output HTML path.")
+@click.option("--format", "fmt", type=click.Choice(["html"]), default="html", show_default=True)
+def report(scored_path: str, output: str, fmt: str) -> None:  # pragma: no cover
+    """Generate a shareable scorecard (HTML) from a scored results JSON."""
+    payload = json.loads(Path(scored_path).read_text(encoding="utf-8"))
+    composite_scores = [_dict_to_score(s) for s in payload.get("scores", [])]
+    drafts = payload.get("drafts", [])
+    metadata = {
+        "run_id": payload.get("run_id"),
+        "started_at": payload.get("started_at"),
+    }
+    rendered = HTMLReportGenerator().render(
+        composite_scores, run_metadata=metadata, drafts=drafts
+    )
+    Path(output).write_text(rendered, encoding="utf-8")
+    click.echo(f"Report ({fmt}) → {output}")
+
+
+# ---------------------------------------------------------------------- helpers
+
+
+def _build_judge(model_id: str):
+    """Construct an OpenRouterJudge from the registry. Imported lazily so unit
+    tests that don't touch the CLI never need the openai SDK at import time."""
+    from draftbench.judges.openrouter_judge import OpenRouterJudge
+
+    if model_id not in MODEL_REGISTRY:
+        raise click.UsageError(
+            f"Unknown judge model: {model_id}. Run `draftbench list-models`."
+        )
+    cfg = MODEL_REGISTRY[model_id]
+    return OpenRouterJudge(
+        model=cfg["openrouter_id"],
+        pricing_in=cfg["in"],
+        pricing_out=cfg["out"],
+        display_name=model_id,
+    )
+
+
+def _score_to_dict(cs: CompositeScore) -> dict:
+    return asdict(cs)
+
+
+def _dict_to_score(data: dict) -> CompositeScore:
+    """Reconstruct a CompositeScore from its serialized dict form."""
+    dim_scores = {
+        int(k): DimensionScore(
+            dimension=int(v["dimension"]),
+            weight=float(v["weight"]),
+            score=v["score"],
+            sources=list(v.get("sources", [])),
+            note=str(v.get("note", "")),
+        )
+        for k, v in data.get("dimension_scores", {}).items()
+    }
+    return CompositeScore(
+        invention_id=str(data["invention_id"]),
+        model_name=str(data["model_name"]),
+        composite=float(data["composite"]),
+        coverage=float(data["coverage"]),
+        extrapolated_composite=float(data["extrapolated_composite"]),
+        dimension_scores=dim_scores,
+        kill_switch_active=bool(data.get("kill_switch_active", False)),
+        kill_switch_reasons=list(data.get("kill_switch_reasons", [])),
+        notes=list(data.get("notes", [])),
+    )
 
 
 def main() -> None:

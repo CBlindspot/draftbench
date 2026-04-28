@@ -42,9 +42,10 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 - [x] Layer 5A — Therasense kill-switch (USPTO Patent Public Search via PatentsView API + Google Patents fallback + disk cache)
 - [x] Layer 5B — Hallucination Classes B-E LLM-judge (taxonomy parser, per-class counts)
 - [x] Layer 4 — Jurisdictional EP/CN/JP LLM-judge (single-call combined verdict, weighted merge)
-- [ ] Composite scorer — 60/40 Track A/B merge across 7 dims
+- [x] Composite scorer — 7-dim weighted merge with Therasense kill-switch hard floor (v1.0 partial: dims 1+2+5 scored, 3/4/6/7 deferred)
 - [x] Blind-review package generator with mapping-file segregation
-- [ ] HTML report generator with Pareto plots (cost × quality, throughput × quality, per-dim radar)
+- [x] HTML report generator with Pareto plot (cost × quality), per-dim breakdown, kill-switch findings, sortable leaderboard
+- [x] CLI integration — `draftbench score` runs all layers, `draftbench report` renders HTML
 
 ### Phase 3 — v1.1 (post-INTA)
 - [ ] Track A corpus pipeline — Juristat API integration, 50 IPR-survived patents, ground-truth claim/spec extraction
