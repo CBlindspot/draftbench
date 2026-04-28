@@ -6,6 +6,12 @@ from draftbench.config import BenchmarkConfig, EvaluationLayer
 from draftbench.harness import BenchmarkResults, BenchmarkRunner
 from draftbench.judges.base import BaseJudge, JudgeConfig, JudgeFinding, JudgeResult
 from draftbench.judges.openrouter_judge import OpenRouterJudge
+from draftbench.layers.hallucination import (
+    HallucinationTaxonomyJudge,
+    HallucinationTaxonomyResult,
+    TaxonomyFinding,
+)
+from draftbench.layers.jurisdictional import JurisdictionalEvaluation, JurisdictionalJudge
 from draftbench.layers.section_112_us import Section112USEvaluation, Section112USJudge
 from draftbench.layers.therasense import TheresenseChecker, TheresenseResult
 from draftbench.metrics import summarize_auto_metrics
@@ -24,12 +30,17 @@ __all__ = [
     "DRAFTING_SYSTEM_PROMPT",
     "EvaluationLayer",
     "GenerationConfig",
+    "HallucinationTaxonomyJudge",
+    "HallucinationTaxonomyResult",
     "JudgeConfig",
     "JudgeFinding",
     "JudgeResult",
+    "JurisdictionalEvaluation",
+    "JurisdictionalJudge",
     "OpenRouterJudge",
     "Section112USEvaluation",
     "Section112USJudge",
+    "TaxonomyFinding",
     "TheresenseChecker",
     "TheresenseResult",
     "USPTOClient",

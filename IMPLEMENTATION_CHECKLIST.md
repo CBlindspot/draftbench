@@ -40,8 +40,8 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 - [x] LLM-judge framework (`BaseJudge`, `OpenRouterJudge`, JSON parsing, structured `JudgeResult`)
 - [x] Layer 2 §112 US LLM-judge (cross-family Claude ↔ GPT supported via `cross_judge=` parameter)
 - [x] Layer 5A — Therasense kill-switch (USPTO Patent Public Search via PatentsView API + Google Patents fallback + disk cache)
-- [ ] Layer 5B — Hallucination 5-class taxonomy LLM-judge (Classes B-E)
-- [ ] Layer 4 — Jurisdictional EP/CN/JP LLM-judge
+- [x] Layer 5B — Hallucination Classes B-E LLM-judge (taxonomy parser, per-class counts)
+- [x] Layer 4 — Jurisdictional EP/CN/JP LLM-judge (single-call combined verdict, weighted merge)
 - [ ] Composite scorer — 60/40 Track A/B merge across 7 dims
 - [x] Blind-review package generator with mapping-file segregation
 - [ ] HTML report generator with Pareto plots (cost × quality, throughput × quality, per-dim radar)

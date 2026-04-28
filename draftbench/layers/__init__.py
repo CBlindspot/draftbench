@@ -10,11 +10,23 @@ Layer 5B (hallucination B-E) → `draftbench.layers.hallucination` (Phase 2 foll
 
 from __future__ import annotations
 
-from draftbench.layers.section_112_us import Section112USJudge
+from draftbench.layers.hallucination import (
+    HallucinationTaxonomyJudge,
+    HallucinationTaxonomyResult,
+    TaxonomyFinding,
+)
+from draftbench.layers.jurisdictional import JurisdictionalEvaluation, JurisdictionalJudge
+from draftbench.layers.section_112_us import Section112USEvaluation, Section112USJudge
 from draftbench.layers.therasense import TheresenseChecker, TheresenseResult
 
 __all__ = [
+    "HallucinationTaxonomyJudge",
+    "HallucinationTaxonomyResult",
+    "JurisdictionalEvaluation",
+    "JurisdictionalJudge",
+    "Section112USEvaluation",
     "Section112USJudge",
+    "TaxonomyFinding",
     "TheresenseChecker",
     "TheresenseResult",
 ]
