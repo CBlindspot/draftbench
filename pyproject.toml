@@ -1,0 +1,82 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "draftbench"
+version = "0.1.0"
+description = "An open-source benchmark for AI-assisted patent drafting"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+authors = [
+    {name = "CBlindspot", email = "engineering@cblindspot.ai"},
+]
+keywords = ["patent", "drafting", "benchmark", "ai", "legal", "evaluation", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Legal Industry",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "httpx>=0.25.0",
+    "openai>=1.60.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.10.0",
+    "tiktoken>=0.8.0",
+    "click>=8.1.0",
+    "rich>=13.0",
+    "tqdm>=4.65",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5",
+]
+anthropic = ["anthropic>=0.40.0"]
+google = ["google-generativeai>=0.5"]
+playwright = ["playwright>=1.40.0"]
+all = [
+    "draftbench[anthropic]",
+    "draftbench[google]",
+    "draftbench[playwright]",
+]
+
+[project.scripts]
+draftbench = "draftbench.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/cblindspot/draftbench"
+Documentation = "https://github.com/cblindspot/draftbench/blob/main/METHODOLOGY.md"
+Repository = "https://github.com/cblindspot/draftbench"
+Issues = "https://github.com/cblindspot/draftbench/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["draftbench"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"data" = "share/draftbench/data"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

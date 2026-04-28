@@ -1,0 +1,52 @@
+# Environment
+.env
+.env.local
+.env.*.local
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+wheels/
+*.egg
+MANIFEST
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.hypothesis/
+coverage.xml
+*.cover
+
+# Linting / typing
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Run outputs (results are produced locally, leaderboard PRs commit specific runs to reports/)
+results/
+*.local.json
+
+# Jupyter
+.ipynb_checkpoints/
