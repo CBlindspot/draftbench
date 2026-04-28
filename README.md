@@ -83,7 +83,7 @@ Layer 5A's **Therasense kill-switch is non-negotiable**: any Class A finding (a 
 
 ## v1.0 first public run
 
-The v1.0 release will ship with a public run on three anonymized inventions (one mechanical, one medtech, one software) drafted under pilot agreement with a U.S. law firm specializing in deep-tech patent prosecution. The firm's identity is withheld at their preference; the disclosures are fully anonymized (inventor names, assignee names, specific numeric parameters redacted) and released under the same Apache-2.0 license as the rest of the repository.
+The v1.0 release will ship with a public run on three anonymized inventions (one mechanical, one medtech, one software). The disclosures are fully anonymized (inventor names, assignee names, specific numeric parameters redacted) and released under the same Apache-2.0 license as the rest of the repository.
 
 Models evaluated in v1.0 (target):
 
@@ -95,7 +95,7 @@ Models evaluated in v1.0 (target):
 
 Each model generates 3 independent drafts per invention (9 drafts per model, ~63 drafts total). Layers 1, 2, 4, 5A, 5B run automatically on all drafts; Layer 3 (blind expert review, Track B) runs on a stratified subset.
 
-The first **pilot run** (2026-04-21, partial, 4/7 models succeeded due to budget cap) is preserved as a historical artifact under [`data/v1.0-first-public-run/`](./data/v1.0-first-public-run/) — see its [README](./data/v1.0-first-public-run/README.md) for outcome details. The full v1.0 INTA run will replace this with all seven models executing successfully and is in flight.
+The full v1.0 INTA run is in flight. Run artifacts will be published under `data/v1.0-first-public-run/` once the run completes.
 
 ---
 

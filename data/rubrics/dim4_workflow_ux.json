@@ -43,6 +43,6 @@
     }
   ],
   "track_a_signals": [],
-  "track_b_protocol": "Reviewer is timed from opening the anonymized draft to declaring ship-readiness. The edit format is [Pending: open question §16.2] — METHODOLOGY.md §16 lists this protocol as pending Sylvain + reviewer panel input. v1.0 ships placeholder; v1.1 locks the protocol.",
+  "track_b_protocol": "Reviewer is timed from opening the anonymized draft to declaring ship-readiness. The edit format is [Pending: open question §16.2] — METHODOLOGY.md §16 lists this protocol as pending reviewer-panel input. v1.0 ships placeholder; v1.1 locks the protocol.",
   "kill_switch": null
 }

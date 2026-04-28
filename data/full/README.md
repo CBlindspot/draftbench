@@ -9,7 +9,7 @@ This directory will hold the full DraftBench test corpus per METHODOLOGY.md §3.
   - `synthetic_public_domain` — held-out contamination-control set
   - `post_2024_publications` — partial hold-out for training-cutoff testing
 
-Build is scoped to v1.1 (August 2026 target). The corpus build is a 3-6 month effort by Satermo / Hansra with manual claim/disclosure separation. Track A scoring depends on this corpus.
+Build is scoped to v1.1 (August 2026 target). The corpus build is a 3-6 month effort by reviewer-panel attorneys with manual claim/disclosure separation. Track A scoring depends on this corpus.
 
 ## Until v1.1 lands
 

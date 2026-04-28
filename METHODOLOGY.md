@@ -1,8 +1,8 @@
 # DraftBench Methodology
 
-**Version** : v1.0-draft (2026-04-23, pending Sylvain + Roger's academic partner review)
+**Version** : v1.0-draft (2026-04-23, pending external review)
 **Scope** : Patent drafting — Steps 9-11 of a typical prosecution workflow (prior-art mapping, claim generation, specification + abstract drafting)
-**Authors** : CBlindspot (Andy Garcia, Sacha), with input from Sylvain Chevallier (CPO IP, Riseon), Roger Hahn (PatentBench)
+**Authors** : CBlindspot, with input from Sylvain Goiran and Roger Hahn (PatentBench)
 **License** : Apache-2.0 — same as the repository
 
 ---
@@ -60,7 +60,7 @@ Composite = 0.60 × TrackA_composite + 0.40 × TrackB_composite
 
 Both tracks score the same seven weighted dimensions (see §4). The tracks differ only in the *source* of the scoring signal: historical ground-truth vs expert panel. Track A and Track B composite scores are always published **separately** alongside the merged composite — divergence between them is informative.
 
-*(Pending Sacha confirmation: current interpretation is that both tracks score all 7 dims independently. Alternative interpretation where Track A scores only dim 3 Durability is explicitly rejected in v1.0 as it would collapse the methodology to a single-track design.)*
+*(Open question, pending external review — see §16: current interpretation is that both tracks score all 7 dimensions with a 60/40 composite merge. The alternative interpretation where Track A scores only Dim 3 Durability is explicitly rejected in v1.0 as it would collapse the methodology to a single-track design.)*
 
 ### 3.1 Track A — Historical ground truth (60% of composite)
 
@@ -80,7 +80,7 @@ Track A scores model-generated drafts against claims and specifications from pat
 
 1. Select a patent with a qualifying survival event.
 2. Split into disclosure + claims. Keep only the disclosure.
-3. Redact any text that references the claims ("as claimed", "the claims include", claim numbers). Manual pass by Satermo / Hansra.
+3. Redact any text that references the claims ("as claimed", "the claims include", claim numbers). Manual pass by registered patent attorneys on the reviewer panel.
 4. The disclosure becomes an input to the harness. The claims become the ground-truth reference.
 
 **Scoring the 7 dimensions in Track A**: for each draft generated from the redacted disclosure, we compute a per-dimension similarity + coverage score against the ground-truth claims and specification. For example:
@@ -94,7 +94,7 @@ Target corpus size for v1.0: **50 IPR-survived patents** reverse-engineered. Thi
 
 ### 3.2 Track B — Expert blind review (40% of composite)
 
-Three registered patent attorneys blind-rate each draft across the seven weighted dimensions. Panel composition for v1.0: **Satermo, Hansra, and one TBC specialist** (see §4.8 panel structure).
+Three registered patent attorneys blind-rate each draft across the seven weighted dimensions. Panel composition for v1.0 is **TBC** (see §9 panel structure) and is being assembled in parallel with the methodology review.
 
 **Blind protocol**:
 
@@ -183,14 +183,14 @@ A DraftBench run consists of six steps. Three automatic, one human (the panel), 
 
 | # | Step | Type | Time / resources |
 |:---:|---|---|---|
-| 1 | Test invention preparation (reverse-engineering of IPR-survived patents) | Setup — one-time, reusable | ~10 hrs per invention, by Satermo/Hansra, amortized across all future runs |
+| 1 | Test invention preparation (reverse-engineering of IPR-survived patents) | Setup — one-time, reusable | ~10 hrs per invention, by reviewer-panel attorneys, amortized across all future runs |
 | 2 | Drafting in parallel across 4+ models / tools | Automatic — harness | ~30 min, OpenRouter-based, ~$15 compute for 4 models × 3 inventions × 3 repeats |
 | 3 | Automatic scoring (Layers 1, 2, 4, 5 — structural, §112, jurisdictional, hallucination + Therasense kill-switch) | Automatic — harness | ~1 hr + 20% manual spot-check |
 | 4a | Panel blind review (Track B) — prosecution-readiness, ship-readiness, Fleiss κ | Human — 3 attorneys | 5 hrs per attorney per run, $3-5K honoraria each |
 | 4b | Ground-truth historical comparison (Track A) — Juristat API + overlap with survived claims | External — Juristat | ~1 hr API calls + Juristat license (budgetable) |
 | 5 | Composite scorecard assembly + client report | Output — CBlindspot | ~1 day writeup, delivered in platform for continuous rerun |
 
-Steps 4a and 4b run **in parallel**, not sequentially. Step 1 is the only one-time cost — the 10 hours of Satermo/Hansra per invention are reused for all future runs indefinitely. This is the economic backbone of the model: per-run cost decreases as the corpus grows.
+Steps 4a and 4b run **in parallel**, not sequentially. Step 1 is the only one-time cost — the 10 hours of reviewer-panel attorney time per invention are reused for all future runs indefinitely. This is the economic backbone of the model: per-run cost decreases as the corpus grows.
 
 **Total economic cost per benchmarked tool (v1.0 scale)**: ~$15K per tool, dominated by attorney honoraria (~$10-15K). Compute is negligible (~$15). Juristat license is a fixed subscription, not per-run.
 
@@ -239,7 +239,7 @@ Three different statistical questions, three different thresholds. v1.0 does NOT
 | Discrimination between tools (statistical power) | ~64 drafts per tool for effect size d=0.5 with 80% power. At 4 tools = ~256 drafts, ~22 runs. | **v1.2 (Nov 2026)** |
 | External validity (Track A) | ~50 IPR-survived patents reverse-engineered, one-time build. | **v1.1 ongoing build** |
 
-**v1.0 (INTA May 2026)**: methodology published + 1 run exemplaire (the anonymized first-public-pilot run). No statistical claims. Framing: "methodology + first example" following the PatentBench template.
+**v1.0 (INTA May 2026)**: methodology published + first public run on three anonymized inventions. No statistical claims. Framing: "methodology + first example" following the PatentBench template.
 
 ---
 
@@ -247,10 +247,10 @@ Three different statistical questions, three different thresholds. v1.0 does NOT
 
 For v1.0 we announce a two-tier panel structure and staff it over v1.1-v1.2:
 
-**Core panel (v1.0)** — 3 attorneys:
-- Satermo
-- Hansra
-- Third reviewer, US-primary general-technology (TBC, Questel-sourced by Sylvain)
+**Core panel (v1.0)** — 3 registered patent attorneys, TBC pending panel formation:
+- Reviewer 1 — US-primary general-technology, IPR-experience required
+- Reviewer 2 — US-primary general-technology, IPR-experience required
+- Reviewer 3 — US-primary general-technology, IPR-experience required
 
 **Specialist panels (announced v1.0, staffed v1.1)** — per-domain panels for:
 - Chemistry
@@ -373,7 +373,6 @@ Every version is tagged in the repository. Historical runs remain reproducible a
 
 ### 15.4 Related CBlindspot work
 
-- PatentVest pilot run — first public DraftBench v1.0 run, anonymized
 - DraftBench repository — https://github.com/cblindspot/draftbench
 - CBlindspot platform — https://cblindspot.ai
 
@@ -383,12 +382,12 @@ Every version is tagged in the repository. Historical runs remain reproducible a
 
 *(To be resolved before v1.0 final publication.)*
 
-1. **Track A weighting interpretation** — current interpretation has both tracks scoring all 7 dimensions with a 60/40 composite merge. Alternative interpretation (Track A = only Dim 3 Durability scored at 60% of composite) is rejected in this draft. *Requires Sacha confirmation.*
-2. **Dim 4 Workflow & UX measurement protocol** — timed attorney-edit sessions require an operational setup (stopwatch, approved edit format) that is not yet defined. *Requires Sylvain + reviewer panel input.*
+1. **Track A weighting interpretation** — current interpretation has both tracks scoring all 7 dimensions with a 60/40 composite merge. Alternative interpretation (Track A = only Dim 3 Durability scored at 60% of composite) is rejected in this draft. *Pending external review.*
+2. **Dim 4 Workflow & UX measurement protocol** — timed attorney-edit sessions require an operational setup (stopwatch, approved edit format) that is not yet defined. *Pending reviewer-panel input.*
 3. **Dim 5 Therasense kill-switch false-positive rate** — calibration threshold depends on first 10 runs ; v1.0 ships with a conservative default. *Empirical, resolves v1.1.*
 4. **Track A corpus composition** — 50 IPR-survived patents stratified across 10 domains requires Juristat query definition and manual curation. *Build starts post-INTA, v1.1 delivery.*
-5. **Third-reviewer core panel slot** — TBC pending Sylvain's Questel-sourcing. *Required before v1.0 first run publication.*
-6. **Academic review partner** — Roger's academic collaborator (law professor) to review methodology before v1.0 publication. *Intro pending partnership formalization.*
+5. **Reviewer panel** — three registered patent attorneys with IPR experience, TBC. *Required before v1.0 first run publication.*
+6. **Academic review partner** — law professor to review methodology before v1.0 publication. *Intro pending partnership formalization.*
 
 ---
 

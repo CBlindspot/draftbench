@@ -73,7 +73,7 @@ One rubric per dimension (1-7 per METHODOLOGY.md §4). Each rubric is a JSON doc
 
 ## Status (v1.0-draft)
 
-The rubric files in this directory ship as **skeletons** for v1.0 INTA — schema and dimension framing are locked, but the 1-5 anchor criteria are placeholder text pending external review (Sylvain + Roger's academic partner) per METHODOLOGY.md §16 open questions.
+The rubric files in this directory ship as **skeletons** for v1.0 INTA — schema and dimension framing are locked, but the 1-5 anchor criteria are placeholder text pending external review per METHODOLOGY.md §16 open questions.
 
 Full anchored rubrics with at least one validated example per score level land in v1.1.
 

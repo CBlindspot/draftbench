@@ -17,12 +17,12 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 - [x] Reporting format spec'd (§12)
 - [x] SemVer versioning policy (§13)
 - [x] Roadmap v1.0 → v2.0 (§14)
-- [ ] Open question §16.1 — Track A weighting interpretation confirmation (Sacha)
-- [ ] Open question §16.2 — Dim 4 attorney-edit-time protocol (Sylvain + reviewer panel)
+- [ ] Open question §16.1 — Track A weighting interpretation confirmation (pending external review)
+- [ ] Open question §16.2 — Dim 4 attorney-edit-time protocol (pending reviewer-panel input)
 - [ ] Open question §16.3 — Therasense kill-switch false-positive threshold calibration
 - [ ] Open question §16.4 — Track A corpus query definition (50 IPR-survived patents)
-- [ ] Open question §16.5 — third reviewer core panel slot (Sylvain via Questel)
-- [ ] Open question §16.6 — academic review partner intro (Roger's collaborator)
+- [ ] Open question §16.5 — reviewer-panel formation (3 registered patent attorneys, IPR-experienced, TBC)
+- [ ] Open question §16.6 — academic review partner intro (law professor, pending)
 
 ## Reference Harness — `draftbench/`
 
@@ -74,9 +74,9 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 
 ## Panel — Track B reviewers
 
-- [ ] Reviewer 1 — Satermo (confirmed)
-- [ ] Reviewer 2 — Hansra (confirmed)
-- [ ] Reviewer 3 — TBC US-primary general-technology (Sylvain via Questel — pending)
+- [ ] Reviewer 1 — registered patent attorney, US-primary general-technology, IPR-experienced (TBC)
+- [ ] Reviewer 2 — registered patent attorney, US-primary general-technology, IPR-experienced (TBC)
+- [ ] Reviewer 3 — registered patent attorney, US-primary general-technology, IPR-experienced (TBC)
 - [ ] Specialist panel chairs (chemistry / AI-ML / biotech / medical device — announced v1.0, staffed v1.1)
 - [ ] Honoraria framework — $3-5K per attorney per run, per-run NDA template
 
@@ -87,7 +87,7 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 - [x] `MANIFESTO.md` — why DraftBench exists, addressed to industry
 - [x] `CONTRIBUTING.md` — test invention / rubric / adapter contribution guidelines
 - [x] `INTEGRATION.md` — adapter patterns (API / CSV / browser)
-- [x] `data/rubrics/README.md` — rubric JSON schema specification (skeleton anchor criteria pending Sylvain + Roger's academic partner review)
+- [x] `data/rubrics/README.md` — rubric JSON schema specification (skeleton anchor criteria pending external review)
 - [x] `data/full/README.md` — Track A corpus organization placeholder (v1.1 build target)
 - [ ] `reports/v1.0-summary.md` — first public run scorecard (generated post full-run via `draftbench report`)
 
@@ -109,4 +109,4 @@ This checklist tracks the items required to call DraftBench v1.0 publishable. v1
 
 ---
 
-*Last updated: 2026-04-28 — Phase 2 complete (LLM-judge framework, Layers 2/4/5A/5B, composite scorer, HTML report, CLI `score` + `report`). 73 tests passing. Awaiting OpenRouter top-up for full v1.0 first-run, Sacha + academic + Sylvain methodology review, and §16 open-question resolutions.*
+*Last updated: 2026-04-28 — Phase 2 complete (LLM-judge framework, Layers 2/4/5A/5B, composite scorer, HTML report, CLI `score` + `report`). 86 tests passing. Awaiting full v1.0 first-run, external methodology review, and §16 open-question resolutions.*
