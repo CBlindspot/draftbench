@@ -59,7 +59,7 @@ No.
 
 [**LegalBench**](https://hazyresearch.stanford.edu/legalbench/) (2023) covers 162 legal tasks. Number addressing patent drafting: **zero**.
 
-[**PatentBench**](https://github.com/rhahn28/patentbench) (Roger Hahn, 2026) is the first reproducible benchmark for patent prosecution AI. It does not cover drafting — by design, it focuses on Office Action response and prosecution reasoning.
+[**PatentBench**](https://github.com/rhahn28/patentbench) (Roger Hahn, 2026) is the first reproducible benchmark for patent prosecution AI, covering five domains across the prosecution lifecycle (Administration, Drafting, Prosecution, Analytics, Prior Art) — 7,200 test cases. PatentBench's Drafting domain focuses on post-filing claim amendment in Office Action response. Pre-filing drafting (invention disclosure → claims → specification → abstract) is the gap DraftBench fills.
 
 This is the state of the field: a multi-billion-dollar drafting AI segment with **zero published, reproducible benchmarks** evaluating the quality of generated claims, specifications, and abstracts under a shared protocol.
 
@@ -174,7 +174,7 @@ The benchmark exists. The methodology is published. The harness is open-source.
 
 ---
 
-<p align="center"><em>DraftBench is a project of CBlindspot. The drafting counterpart to <a href="https://github.com/rhahn28/patentbench">PatentBench</a> in an open ecosystem of IP-workflow benchmarks.</em></p>
+<p align="center"><em>DraftBench is a project of CBlindspot — a vertical deep-dive on pre-filing patent drafting, complementary to <a href="https://github.com/rhahn28/patentbench">PatentBench</a>'s horizontal coverage of patent prosecution AI in an open ecosystem of IP-workflow benchmarks.</em></p>
 
 <p align="center"><strong>cblindspot.ai</strong> | <strong>github.com/cblindspot/draftbench</strong></p>
 

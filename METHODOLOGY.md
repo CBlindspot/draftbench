@@ -17,11 +17,17 @@ The closest public benchmark relevant to this work is [Artificial Analysis Intel
 
 ### 1.2 Why open-source the methodology
 
-A vendor that publishes its own benchmark is structurally accused of "benchmaxxing". A vendor that publishes a versioned, open methodology, with an independent reference harness, that any third party can execute and reproduce, has a different defensibility profile — the same defensibility profile that [PatentBench](https://github.com/rhahn28/patentbench) has established for prior-art search.
+A vendor that publishes its own benchmark is structurally accused of "benchmaxxing". A vendor that publishes a versioned, open methodology, with an independent reference harness, that any third party can execute and reproduce, has a different defensibility profile — the same defensibility profile that [PatentBench](https://github.com/rhahn28/patentbench) has established for the broader patent prosecution stack.
 
-We take the same playbook for drafting.
+We take the same playbook for pre-filing drafting.
 
-### 1.3 Scope in the CBlindspot product
+### 1.3 Relationship to PatentBench
+
+DraftBench is a **vertical deep-dive on pre-filing patent drafting** (invention disclosure → claims → specification → abstract), **complementary to [PatentBench](https://github.com/rhahn28/patentbench)'s horizontal coverage of patent prosecution AI** across five domains (Administration, Drafting, Prosecution, Analytics, Prior Art).
+
+Where PatentBench's Drafting domain focuses on **post-filing** claim amendment in Office Action response, DraftBench focuses exclusively on **pre-filing** application drafting. Different activities, same broader family of benchmarks under the open-standard ecosystem PatentBench pioneered.
+
+### 1.4 Scope in the CBlindspot product
 
 DraftBench is part of a two-tier benchmarking architecture within CBlindspot:
 

@@ -10,7 +10,7 @@ Version 1.0 · Co-announced with [PatentBench](https://github.com/rhahn28/patent
 
 DraftBench is an open standard for evaluating the quality of AI-generated patent drafts — claims, specifications, and abstracts. It publishes a versioned methodology, a reference test harness, and a dual-track scoring protocol that measures both *historical durability* (against patents that have survived adversarial review) and *expert preference* (blind-rated by a panel of registered patent attorneys).
 
-DraftBench is the drafting counterpart to [PatentBench](https://github.com/rhahn28/patentbench) (prior-art search). Together they form the beginning of an open ecosystem of IP workflow benchmarks — because *evaluation should not be a marketing claim*.
+DraftBench is a **vertical deep-dive on pre-filing patent drafting**, complementary to [PatentBench](https://github.com/rhahn28/patentbench)'s **horizontal coverage of patent prosecution AI** across five domains (Administration, Drafting, Prosecution, Analytics, Prior Art). Where PatentBench measures post-filing claim amendment, DraftBench measures pre-filing application drafting. Together they form the beginning of an open ecosystem of IP workflow benchmarks — because *evaluation should not be a marketing claim*.
 
 ---
 
@@ -205,8 +205,8 @@ See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the full process. All contributio
 
 DraftBench is part of an emerging open ecosystem of IP workflow benchmarks:
 
-- [**PatentBench**](https://github.com/rhahn28/patentbench) — prior-art search *(Roger Hahn)*
-- **DraftBench** — patent drafting *(you are here)*
+- [**PatentBench**](https://github.com/rhahn28/patentbench) — patent prosecution AI, 5 domains across the prosecution lifecycle *(Roger Hahn)*
+- **DraftBench** — pre-filing patent drafting *(you are here)*
 - **ValueBench** — patent valuation *(planned, H2 2026)*
 
 Each benchmark is independently owned, open-sourced, and versioned. They share conventions (harness layout, result formats, contribution norms) but no code dependency.
