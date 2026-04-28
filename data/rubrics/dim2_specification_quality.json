@@ -1,0 +1,55 @@
+{
+  "dimension_id": 2,
+  "dimension": "Specification Quality",
+  "weight": 0.20,
+  "version": "1.0-draft",
+  "description": "§112(a)/(b)/(f) US conformance and equivalents in EP (Art 83 / 84 / 123(2)), CN (Art 26), JP (Art 36). Jurisdictional conformity is scored only for use cases that explicitly target the corresponding jurisdiction.",
+  "sub_criteria": [
+    "§112(a) enablement — POSITA can make and use",
+    "§112(b) definiteness — clear claim terms, no ambiguity",
+    "§112(f) means-plus-function handling — disclosed structure for any functional language",
+    "EP Art 83 sufficiency + Art 84 clarity / conciseness",
+    "EP Art 123(2) added-matter screening (no new matter post-filing)",
+    "CN Art 26.3 / 26.4 sufficient disclosure + clarity",
+    "JP Art 36 enablement + clarity"
+  ],
+  "scoring_levels": [
+    {
+      "score": 5,
+      "label": "Excellent",
+      "criteria": "[Pending review] Specification fully enables claims, all elements have written description support, no §112 defects, jurisdictional requirements satisfied where targeted.",
+      "anchor_example": null
+    },
+    {
+      "score": 4,
+      "label": "Good",
+      "criteria": "[Pending review] Minor drafting tightening would close marginal §112(b) definiteness gaps; otherwise sound.",
+      "anchor_example": null
+    },
+    {
+      "score": 3,
+      "label": "Adequate",
+      "criteria": "[Pending review] Filable specification with §112(a) enablement defects requiring more than one editing pass to resolve.",
+      "anchor_example": null
+    },
+    {
+      "score": 2,
+      "label": "Weak",
+      "criteria": "[Pending review] Material §112(a) or (b) failures; written description does not support all claim limitations; would face strong rejection on examination.",
+      "anchor_example": null
+    },
+    {
+      "score": 1,
+      "label": "Unacceptable",
+      "criteria": "[Pending review] Specification is non-enabling, lacks definite claim language across multiple claims, or contains added-matter that would prompt EP Art 123(2) rejection on filing in jurisdiction.",
+      "anchor_example": null
+    }
+  ],
+  "track_a_signals": [
+    "BERTScore against ground-truth specification on per-section basis",
+    "Coverage of disclosed embodiments and §112(a) supporting language",
+    "Section-order alignment with MPEP 608.01(a)"
+  ],
+  "track_b_protocol": "Reviewer scores 1-5 against §112 + jurisdictional sub-criteria. For multi-jurisdiction inventions, separate scores per jurisdiction are recorded then averaged with weights 0.5 US, 0.2 EP, 0.15 CN, 0.15 JP unless otherwise specified by the test case.",
+  "kill_switch": null
+}

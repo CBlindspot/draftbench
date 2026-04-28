@@ -1,0 +1,48 @@
+{
+  "dimension_id": 4,
+  "dimension": "Workflow & UX",
+  "weight": 0.10,
+  "version": "1.0-draft",
+  "description": "Attorney edit-time in minutes — the commercial metric that decides senior-partner adoption. Lower edit-time is better; complemented by character-level edit-distance between original draft and attorney-approved version.",
+  "sub_criteria": [
+    "Total edit-time in minutes from review start to ship-ready",
+    "Edit-distance (character-level) between original and approved versions",
+    "Number of structural rewrites required",
+    "Number of independent-claim rewrites required"
+  ],
+  "scoring_levels": [
+    {
+      "score": 5,
+      "label": "Excellent",
+      "criteria": "[Pending review] Edit-time under [TBD] minutes; character-level edit-distance under [TBD]; ≤1 structural rewrite; no independent-claim rewrite.",
+      "anchor_example": null
+    },
+    {
+      "score": 4,
+      "label": "Good",
+      "criteria": "[Pending review] Edit-time within first quartile; minor surface edits dominate; up to 1 independent-claim refinement.",
+      "anchor_example": null
+    },
+    {
+      "score": 3,
+      "label": "Adequate",
+      "criteria": "[Pending review] Edit-time within median range; mix of structural and surface edits; 1-2 dependent-claim rewrites.",
+      "anchor_example": null
+    },
+    {
+      "score": 2,
+      "label": "Weak",
+      "criteria": "[Pending review] Edit-time in fourth quartile; multiple structural rewrites required; independent claim partially rewritten.",
+      "anchor_example": null
+    },
+    {
+      "score": 1,
+      "label": "Unacceptable",
+      "criteria": "[Pending review] Faster to draft from scratch — attorney rewrites majority of independent claim and significant spec sections.",
+      "anchor_example": null
+    }
+  ],
+  "track_a_signals": [],
+  "track_b_protocol": "Reviewer is timed from opening the anonymized draft to declaring ship-readiness. The edit format is [Pending: open question §16.2] — METHODOLOGY.md §16 lists this protocol as pending Sylvain + reviewer panel input. v1.0 ships placeholder; v1.1 locks the protocol.",
+  "kill_switch": null
+}

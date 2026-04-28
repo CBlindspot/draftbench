@@ -1,0 +1,52 @@
+{
+  "dimension_id": 3,
+  "dimension": "Prosecution & Post-Grant Durability",
+  "weight": 0.15,
+  "version": "1.0-draft",
+  "description": "Adversarial-survival prediction — would the claims hold up against §103 obviousness, §102 anticipation, IPR / EPO opposition / district court validity challenge? Inherently a Track A signal: requires comparison to ground-truth historical patents that survived adversarial review.",
+  "sub_criteria": [
+    "Predicted survival probability based on Track A ground-truth comparison",
+    "Juristat API — claim-level prosecution outcome prediction",
+    "Lex Machina — litigation outcome priors for analogous claims",
+    "Darts-ip — worldwide litigation outcomes"
+  ],
+  "scoring_levels": [
+    {
+      "score": 5,
+      "label": "Excellent",
+      "criteria": "[Pending review] Claims align with ground-truth survived claims for the same disclosure; predicted IPR survival > 80%; analogous-claim litigation outcomes favorable.",
+      "anchor_example": null
+    },
+    {
+      "score": 4,
+      "label": "Good",
+      "criteria": "[Pending review] Strong alignment with ground truth; minor scope deltas would not change adversarial outcome.",
+      "anchor_example": null
+    },
+    {
+      "score": 3,
+      "label": "Adequate",
+      "criteria": "[Pending review] Partial overlap with ground truth; predicted survival 50-80%; litigation outcome priors mixed.",
+      "anchor_example": null
+    },
+    {
+      "score": 2,
+      "label": "Weak",
+      "criteria": "[Pending review] Material divergence from survived claims; predicted survival 20-50%; analogous claims often invalidated.",
+      "anchor_example": null
+    },
+    {
+      "score": 1,
+      "label": "Unacceptable",
+      "criteria": "[Pending review] Claims would be readily invalidated; predicted survival < 20%; no defensible position against motivated adversary.",
+      "anchor_example": null
+    }
+  ],
+  "track_a_signals": [
+    "Independent-claim scope overlap (intersection-over-union) with survived claims",
+    "Dependent-claim limitation coverage",
+    "Juristat survival prediction score for the candidate's independent claim"
+  ],
+  "track_b_protocol": "Track B contributes minimally to Dim 3 — reviewers only flag claims that, in their professional judgment, would not survive an IPR they have personally seen. Default Track B score for Dim 3 is the median across reviewers; outliers (≥2-point deviation) trigger discussion before merge.",
+  "kill_switch": null
+}

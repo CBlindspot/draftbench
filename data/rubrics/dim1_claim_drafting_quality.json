@@ -1,0 +1,53 @@
+{
+  "dimension_id": 1,
+  "dimension": "Claim Drafting Quality",
+  "weight": 0.35,
+  "version": "1.0-draft",
+  "description": "Strategically sound and legally durable claims — appropriate scope, independent/dependent architecture, differentiation from prior art, correct Markush groups where applicable, antecedent basis hygiene.",
+  "sub_criteria": [
+    "Independent-claim scope appropriateness (too broad = unenforceable; too narrow = designed-around)",
+    "Independent / dependent claim architecture depth and hierarchy",
+    "Differentiation from cited prior art (§103 nonobviousness-aware drafting)",
+    "Markush group correctness where applicable (chemistry, mechanical)",
+    "Antecedent basis hygiene (every 'the [noun]' has a prior definite introduction)"
+  ],
+  "scoring_levels": [
+    {
+      "score": 5,
+      "label": "Excellent",
+      "criteria": "[Pending review] Independent claims at appropriately broad scope supported by disclosure; dependent chain progressively narrows along strategically valuable axes; clear differentiation from cited prior art; Markush correct; no antecedent-basis defects.",
+      "anchor_example": null
+    },
+    {
+      "score": 4,
+      "label": "Good",
+      "criteria": "[Pending review] Minor scope or architecture issues that an experienced attorney could correct in one editing pass; differentiation present but not maximally exploited.",
+      "anchor_example": null
+    },
+    {
+      "score": 3,
+      "label": "Adequate",
+      "criteria": "[Pending review] Claims are filable but suboptimal — scope too cautious or too aggressive in places, dependent chain shallow or non-strategic.",
+      "anchor_example": null
+    },
+    {
+      "score": 2,
+      "label": "Weak",
+      "criteria": "[Pending review] Material scope problems, missing independent claims for distinct statutory categories, or systematic antecedent-basis errors.",
+      "anchor_example": null
+    },
+    {
+      "score": 1,
+      "label": "Unacceptable",
+      "criteria": "[Pending review] Claims would not survive USPTO formality review or have structural defects rendering them unenforceable.",
+      "anchor_example": null
+    }
+  ],
+  "track_a_signals": [
+    "BERTScore against ground-truth independent claims for the same disclosure",
+    "Coverage ratio of survived claim limitations present in candidate draft",
+    "Independent / dependent claim count alignment with ground truth"
+  ],
+  "track_b_protocol": "Reviewer reads candidate draft + disclosure (without prior-art references), scores 1-5 against sub-criteria, then provides forced-rank across all candidates for the same invention.",
+  "kill_switch": null
+}

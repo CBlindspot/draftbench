@@ -1,0 +1,49 @@
+{
+  "dimension_id": 7,
+  "dimension": "Integration & TCO",
+  "weight": 0.05,
+  "version": "1.0-draft",
+  "description": "Vendor-level metadata. Integration vector and total cost of ownership over 3 years. Captured once per vendor at onboarding, refreshed quarterly.",
+  "sub_criteria": [
+    "Integration vector (MCP server, REST API, plugin marketplace presence, enterprise SSO)",
+    "License model (per-seat, per-draft, flat enterprise, hybrid)",
+    "Infrastructure cost (self-hosted GPU, cloud inference, vendor-managed)",
+    "Maintenance cost (upgrades, new-model rollouts, regression testing)",
+    "Switching cost (data export format, eval-set portability, IP ownership of outputs)"
+  ],
+  "scoring_levels": [
+    {
+      "score": 5,
+      "label": "Excellent",
+      "criteria": "MCP-ready or full REST + SSO; per-seat or flat-enterprise pricing; vendor-managed infrastructure; low switching cost (clean export, IP ownership clear).",
+      "anchor_example": null
+    },
+    {
+      "score": 4,
+      "label": "Good",
+      "criteria": "Strong integration story; pricing predictable; switching cost moderate.",
+      "anchor_example": null
+    },
+    {
+      "score": 3,
+      "label": "Adequate",
+      "criteria": "Basic API or plugin integration; pricing requires forecasting; some switching friction.",
+      "anchor_example": null
+    },
+    {
+      "score": 2,
+      "label": "Weak",
+      "criteria": "Limited integration options; per-draft pricing unpredictable at scale; high switching cost.",
+      "anchor_example": null
+    },
+    {
+      "score": 1,
+      "label": "Unacceptable",
+      "criteria": "UI-only with no API; pricing not transparent; switching effectively impossible (proprietary export, ambiguous IP terms).",
+      "anchor_example": null
+    }
+  ],
+  "track_a_signals": [],
+  "track_b_protocol": "Captured via vendor onboarding form + 3-year TCO model. Verified against pricing pages, integration docs, and customer-reported actuals where available. Refreshed quarterly.",
+  "kill_switch": null
+}

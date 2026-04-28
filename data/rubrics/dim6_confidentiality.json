@@ -1,0 +1,48 @@
+{
+  "dimension_id": 6,
+  "dimension": "Confidentiality, Privilege & Trust",
+  "weight": 0.05,
+  "version": "1.0-draft",
+  "description": "Vendor-level metadata, not per-draft scoring. Four binary deal-breakers measured once at vendor onboarding and refreshed quarterly.",
+  "sub_criteria": [
+    "Privilege-preserving evaluation (does the tool honor attorney-work-product doctrine on inputs)",
+    "No-train-on-data (contractual + technical guarantee that inputs are not used for model training)",
+    "Air-gap / VPC option (tool deployable without external data egress)",
+    "Audit logs (tamper-evident, RBAC-gated, retention-configured)"
+  ],
+  "scoring_levels": [
+    {
+      "score": 5,
+      "label": "Excellent",
+      "criteria": "All four deal-breakers met with documented controls (DPA, SOC 2 Type II, deployment options, log retention spec).",
+      "anchor_example": null
+    },
+    {
+      "score": 4,
+      "label": "Good",
+      "criteria": "Three of four deal-breakers met; fourth committed on roadmap with ETA.",
+      "anchor_example": null
+    },
+    {
+      "score": 3,
+      "label": "Adequate",
+      "criteria": "Two of four deal-breakers met. Two are deal-breakers for regulated industries but tool is usable in some configurations.",
+      "anchor_example": null
+    },
+    {
+      "score": 2,
+      "label": "Weak",
+      "criteria": "One of four deal-breakers met. Tool usable only in low-stakes contexts (small entity, non-strategic disclosures).",
+      "anchor_example": null
+    },
+    {
+      "score": 1,
+      "label": "Unacceptable",
+      "criteria": "Zero deal-breakers met. Tool is not deployable for confidential client work.",
+      "anchor_example": null
+    }
+  ],
+  "track_a_signals": [],
+  "track_b_protocol": "Captured via vendor onboarding form; verified against DPA, SOC 2 / ISO 27001 reports, and deployment documentation. Refreshed quarterly. Track B reviewers do not score this dimension on a per-draft basis.",
+  "kill_switch": null
+}
